@@ -28,4 +28,4 @@ ST_MODEL_NAME = "jhgan/ko-sroberta-multitask"
 TRAINED_MODEL_LOCAL_PATH = os.getenv("aws_s3_model_path")
 TRAINED_MODEL_S3_PATH = os.getenv("aws_s3_model_path")
 
-SAVE_MODEL_DIR = ""
+SAVE_MODEL_DIR = "saved_model"

@@ -24,13 +24,8 @@ from sklearn.metrics import (
 )
 
 from model.bert import MultiLabelDataset, BertForMultiLabelClassification
+from settings import ST_MODEL_NAME, BATCHES_FILE_PATH, SAVE_MODEL_DIR
 
-from settings import S3_FILE_PATH, SAVE_MODEL_DIR
-
-S3_FILE_PATH = "drive/MyDrive/workspace/output.csv"
-ST_MODEL_NAME = "jhgan/ko-sroberta-multitask"
-
-save_model_dir = f"drive/MyDrive/workspace/saved_model/epoch_10"
 
 tokenizer = BertTokenizer.from_pretrained(ST_MODEL_NAME)
 
@@ -39,7 +34,7 @@ num_epoch = 3
 
 def train():
 
-    df = pd.read_csv(S3_FILE_PATH)
+    df = pd.read_csv(BATCHES_FILE_PATH)
 
     # X: 자연어 텍스트, y: 멀티 라벨 확률값
     X = df["text"].tolist()
@@ -114,11 +109,12 @@ def train():
     print(f"Final Test Micro-F1: {micro_f1:.4f}")
     print(f"Final Test Hamming Loss: {hamming:.4f}")
     print(f"Final Test Subset Acc: {subset_acc:.4f}")
-    # ✅ 모델 저장: Hugging Face 권장 방식
-    os.makedirs(save_model_dir, exist_ok=True)
-    model.save_pretrained(save_model_dir)
-    tokenizer.save_pretrained(save_model_dir)
-    print(f"Model and tokenizer saved to {save_model_dir}")
+
+    # Saved Model
+    os.makedirs(SAVE_MODEL_DIR, exist_ok=True)
+    model.save_pretrained(SAVE_MODEL_DIR)
+    tokenizer.save_pretrained(SAVE_MODEL_DIR)
+    print(f"Model and tokenizer saved to {SAVE_MODEL_DIR}")
 
 
 def evaluate(model, dataloader, device, label_names, threshold=0.5):
