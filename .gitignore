@@ -1,0 +1,11 @@
+# Data
+batches/
+raw_output.json
+input_batches/
+output_batches/
+output.csv
+
+# Env
+.env
+
+__pycache__
